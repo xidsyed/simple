@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.20"
-    `java-library`
+    `maven-publish`
 }
 
 group = "org.example"
@@ -16,8 +16,9 @@ tasks.jar {
         attributes["Main-Class"] = "org.example.MainKt"
     }
 }
-q
+
 dependencies {
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testImplementation(kotlin("test"))
 }
 
@@ -26,4 +27,16 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.example"
+            artifactId = "simple"
+            version = "0.1.0"
+
+            from(components["java"])
+        }
+    }
 }
